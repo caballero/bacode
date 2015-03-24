@@ -3,7 +3,8 @@ CREATE TABLE professor (
 	name TEXT,
 	affiliation TEXT,
 	email TEXT,
-	phone TEXT
+	phone TEXT,
+	interests TEXT
 	);
 
 CREATE TABLE student (
@@ -11,7 +12,9 @@ CREATE TABLE student (
 	name TEXT,
 	affiliation TEXT,
 	email TEXT,
-	phone TEXT
+	phone TEXT,
+	skills TEXT,
+	interests TEXT
 	);
 
 CREATE TABLE skills (
@@ -33,14 +36,14 @@ CREATE TABLE jobs (
 	interests TEXT
 	);
 
-INSERT INTO professor VALUES (1, "Albus Dumbledore", "Hogwarts", "director@hogwards.edu", "555-4545");
-INSERT INTO professor VALUES (2, "Severus Snape", "Slytherin", "snape@hogwards.edu", "555-4542");
-INSERT INTO professor VALUES (3, "Minerva McGonagall", "Griffindor", "mcgonadall@hogwards.edu", "555-4544");
+INSERT INTO professor VALUES (1, "Albus Dumbledore", "Hogwarts", "director@hogwards.edu", "555-4545", "1,2");
+INSERT INTO professor VALUES (2, "Severus Snape", "Slytherin", "snape@hogwards.edu", "555-4542", "2,4");
+INSERT INTO professor VALUES (3, "Minerva McGonagall", "Griffindor", "mcgonadall@hogwards.edu", "555-4544", "3,5");
 
-INSERT INTO student VALUES (1, "Harry Potter", "Griffindor", "hpotter@hogwards.edu", "555-3001");
-INSERT INTO student VALUES (2, "Ron Weasley", "Griffindor", "rweasley@hogwards.edu", "555-3002");
-INSERT INTO student VALUES (3, "Draco Malfoy", "Slytherin", "dmalfoy@hogwards.edu", "555-3011");
-INSERT INTO student VALUES (4, "Luna Lovegood", "Griffindor", "llovegood@hogwards.edu", "555-3004");
+INSERT INTO student VALUES (1, "Harry Potter", "Griffindor", "hpotter@hogwards.edu", "555-3001", "1,2", "2,4");
+INSERT INTO student VALUES (2, "Ron Weasley", "Griffindor", "rweasley@hogwards.edu", "555-3002", "3,4", "1,4");
+INSERT INTO student VALUES (3, "Draco Malfoy", "Slytherin", "dmalfoy@hogwards.edu", "555-3011", "2,5", "3");
+INSERT INTO student VALUES (4, "Luna Lovegood", "Griffindor", "llovegood@hogwards.edu", "555-3004", "4,5", "5");
 
 INSERT INTO skills VALUES (1, "Magic potion preparation");
 INSERT INTO skills VALUES (2, "Fire spells");

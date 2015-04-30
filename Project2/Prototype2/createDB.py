@@ -1,8 +1,26 @@
 import sqlite3
-con = sqlite3.connect('todo.db') # Warning: This file is created in the current directory
-con.execute("CREATE TABLE todo (id INTEGER PRIMARY KEY, task char(100) NOT NULL, status bool NOT NULL)")
-con.execute("INSERT INTO todo (task,status) VALUES ('Read A-byte-of-python to get a good introduction into Python',0)")
-con.execute("INSERT INTO todo (task,status) VALUES ('Visit the Python website',1)")
-con.execute("INSERT INTO todo (task,status) VALUES ('Test various editors for and check the syntax highlighting',1)")
-con.execute("INSERT INTO todo (task,status) VALUES ('Choose your favorite WSGI-Framework',0)")
+con = sqlite3.connect('socialjob.db') # Warning: This file is created in the current directory
+con.execute("CREATE TABLE teachers (id INTEGER PRIMARY KEY,   \
+                                    name CHAR(100) NOT NULL,  \
+                                    email CHAR(100) NOT NULL, \
+                                    affiliation CHAR(100),    \
+                                    phone CHAR(20),           \
+                                    interest TEXT
+                                    )")
+con.execute("CREATE TABLE students (id INTEGER PRIMARY KEY,   \
+                                    name CHAR(100) NOT NULL,  \
+                                    email CHAR(100) NOT NULL, \
+                                    affiliation CHAR(100),    \
+                                    phone CHAR(20),           \
+                                    interest TEXT,            \
+                                    skills TEXT
+                                    )")
+
+con.execute("CREATE TABLE jobs     (id INTEGER PRIMARY KEY,    \
+                                    name CHAR(100) NOT NULL,   \
+                                    description TEXT NOT NULL, \
+                                    teacher INT,               \
+                                    skills TEXT
+                                    )")
+                                    
 con.commit()

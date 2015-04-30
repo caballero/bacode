@@ -20,7 +20,8 @@ con.execute("CREATE TABLE jobs     (id INTEGER PRIMARY KEY,    \
                                     name CHAR(100) NOT NULL,   \
                                     description TEXT NOT NULL, \
                                     teacher INT,               \
-                                    skills TEXT
+                                    skills TEXT,               \
+                                    status BOOLEAN
                                     )")
                                     
 con.commit()

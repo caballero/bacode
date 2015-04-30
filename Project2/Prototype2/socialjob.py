@@ -41,7 +41,7 @@ def new_student():
         
         conn = sqlite3.connect('socialjob.db')
         c = conn.cursor()
-        c.execute("INSERT INTO teachers (name,email,affiliation,phone,interest,skills) VALUES (?,?,?,?,?,?)", (name,email,affiliation,phone,interest,skills))
+        c.execute("INSERT INTO students (name,email,affiliation,phone,interest,skills) VALUES (?,?,?,?,?,?)", (name,email,affiliation,phone,interest,skills))
         new_id = c.lastrowid
 
         conn.commit()
@@ -63,16 +63,16 @@ def new_job():
         
         conn = sqlite3.connect('socialjob.db')
         c = conn.cursor()
-        c.execute("INSERT INTO teachers (name,description,teacher,skills,status) VALUES (?,?,?,?,?)", (name,description,teacher,skills,1))
+        c.execute("INSERT INTO jobs (name,description,teacher,skills,status) VALUES (?,?,?,?,?)", (name,description,teacher,skills,1))
         new_id = c.lastrowid
 
         conn.commit()
         c.close()
 
-        return '<p>Un nuevo alumno ha sido agregado, su ID es %s</p>' % new_id
+        return '<p>Un nuevo trabajo ha sido agregado, su ID es %s</p>' % new_id
 
     else:
-        return template('new_student.tpl')
+        return template('new_job.tpl')
 
 @route('/edit/<no:int>', method='GET')
 def edit_item(no):

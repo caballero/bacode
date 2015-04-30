@@ -5,40 +5,74 @@ from bottle import route, run, debug, template, request, static_file, error
 # only needed when you run Bottle on mod_wsgi
 from bottle import default_app
 
-@route('/todo')
-def todo_list():
-
-    conn = sqlite3.connect('todo.db')
-    c = conn.cursor()
-    c.execute("SELECT id, task FROM todo WHERE status LIKE '1';")
-    result = c.fetchall()
-    c.close()
-
-    output = template('make_table', rows=result)
-    return output
-
-@route('/new', method='GET')
-def new_item():
-
+@route('/newteacher', method='GET')
+def new_teacher():
     if request.GET.get('save','').strip():
 
-        new = request.GET.get('task', '').strip()
-        conn = sqlite3.connect('todo.db')
+        name = request.GET.get('name', '').strip()
+        email = request.GET.get('email', '').strip()
+        affiliation = request.GET.get('affiliation', '').strip()
+        phone = request.GET.get('phone', '').strip()
+        interest = request.GET.get('interest', '').strip()
+        
+        conn = sqlite3.connect('socialjob.db')
         c = conn.cursor()
-	
-	if re.search('(drop|delete|insert|append)', new): 
-		return "<p>Codigo malicioso detectado</p>";
-
-        c.execute("INSERT INTO todo (task,status) VALUES (?,?)", (new,1))
+        c.execute("INSERT INTO teachers (name,email,affiliation,phone,interest) VALUES (?,?,?,?,?)", (name,email,affiliation,phone,interest))
         new_id = c.lastrowid
 
         conn.commit()
         c.close()
 
-        return '<p>The new task was inserted into the database, the ID is %s</p>' % new_id
+        return '<p>Un nuevo profesor ha sido agregado, su ID es %s</p>' % new_id
 
     else:
-        return template('new_task.tpl')
+        return template('new_teacher.tpl')
+
+@route('/newstudent', method='GET')
+def new_student():
+    if request.GET.get('save','').strip():
+
+        name = request.GET.get('name', '').strip()
+        email = request.GET.get('email', '').strip()
+        affiliation = request.GET.get('affiliation', '').strip()
+        phone = request.GET.get('phone', '').strip()
+        interest = request.GET.get('interest', '').strip()
+        skills = request.GET.get('skills', '').strip()
+        
+        conn = sqlite3.connect('socialjob.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO teachers (name,email,affiliation,phone,interest,skills) VALUES (?,?,?,?,?,?)", (name,email,affiliation,phone,interest,skills))
+        new_id = c.lastrowid
+
+        conn.commit()
+        c.close()
+
+        return '<p>Un nuevo alumno ha sido agregado, su ID es %s</p>' % new_id
+
+    else:
+        return template('new_student.tpl')
+
+@route('/newjob', method='GET')
+def new_job():
+    if request.GET.get('save','').strip():
+
+        name = request.GET.get('name', '').strip()
+        description = request.GET.get('description', '').strip()
+        teacher = request.GET.get('teacher', '').strip()
+        skills = request.GET.get('skills', '').strip()
+        
+        conn = sqlite3.connect('socialjob.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO teachers (name,description,teacher,skills,status) VALUES (?,?,?,?,?)", (name,description,teacher,skills,1))
+        new_id = c.lastrowid
+
+        conn.commit()
+        c.close()
+
+        return '<p>Un nuevo alumno ha sido agregado, su ID es %s</p>' % new_id
+
+    else:
+        return template('new_student.tpl')
 
 @route('/edit/<no:int>', method='GET')
 def edit_item(no):

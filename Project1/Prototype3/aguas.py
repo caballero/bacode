@@ -16,7 +16,6 @@ def getRec():
     output = template('make_table', rows=res)
     return output
 
-@route('/rec<no:int>/<cant:float>')
 def scaleRec(no, cant):
     conn = sqlite3.connect("aguas.db")
     c = conn.cursor()

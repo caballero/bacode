@@ -20,13 +20,14 @@ def getRec():
 def scaleRec(no, cant):
     conn = sqlite3.connect("aguas.db")
     c = conn.cursor()
-    c.execute('select val from recetas where rid = ?', (no,))
+    c.execute('select name,val from recetas where rid = ?', (no,))
     res = c.fetchone()
-    volorig = res[0]
+    receta  = res[0]
+    volorig = res[1]
+    
     c.execute('select name,val,unit from ingredientes natural join cantidades where rid = ?', (no,))
     res = c.fetchall()
-    c.close()
-    output = '<table border=1><th>Ingrediente</th><th>Cantidad</th><th>Unidad</th>'
+    output = '<h2>{}</h2><table border=1><th>Ingrediente</th><th>Cantidad</th><th>Unidad</th>'.format(receta)
     for ing in res:
         name = ing[0]
         val  = ing[1]
@@ -35,6 +36,15 @@ def scaleRec(no, cant):
         output = output + '<tr><td>{}</td><td>{}</td><td>{}</td>'.format(name,val,unit)
                 
     output = output + '</table>'
+    
+    c.execute('select proceso from proceso where rid = ?', (no,))
+    res = c.fetchone()
+    proceso = res[0]
+    output = output + '<pre>{}</pre>'.format(proceso)
+    
+    
+    c.close()
+    
     return output
 
 @error(403)

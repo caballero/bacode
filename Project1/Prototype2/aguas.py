@@ -1,41 +1,29 @@
 #!/usr/bin/python
 
-import sys
 import sqlite3
+from bottle import route, run, debug, template, request, static_file, error
 
-rec = sys.argv[1]
-cant = sys.argv[2]
+# only needed when you run Bottle on mod_wsgi
+from bottle import default_app
 
-conn = sqlite3.connect("aguas.db")
-c = conn.cursor()
+@route('/aguas')
+def getRec:
+    conn = sqlite3.connect("aguas.db")
+    c = conn.cursor()
+    c.execute('select name, val, unit from recetas')
+    res = c.fetchall()
+    c.close()
+    output = template('make_table', rows=result)
+    return output
+    
+@error(403)
+def mistake403(code):
+    return 'There is a mistake in your url!'
 
-c.execute('select name, val, unit from recetas where rid == ?', rec)
-res = c.fetchone()
-receta = res[0]
-cantorig = res[1]
-unitorig = res[2]
+@error(404)
+def mistake404(code):
+    return 'Sorry, this page does not exist!'
 
-escala = float(cant) / float(cantorig)
 
-print "RECETA SELECCIONADA:"
-print "{} ({} {})".format(receta, cantorig, unitorig) 
-print
-
-print "INGREDIENTES PARA {} {}".format(cant, unitorig)
-c.execute('select i.name, c.val, c.unit from cantidades as c natural join ingredientes as i where rid == ?', rec)
-res = c.fetchall()
-for row in res:
-	nombre = row[0]
-	cantidad = row[1]
-	unidad = row[2]
-	cantidad_ajustada = float(cantidad) * float(escala)
-	print "{} {} {}".format(cantidad_ajustada, unidad, nombre)
-
-print
-print "PREPARACION:"
-c.execute('select proceso from proceso where rid == ?', rec)
-res = c.fetchone()
-proceso = res[0]
-print proceso
-
-c.close()
+debug(True)
+run(reloader=True)
